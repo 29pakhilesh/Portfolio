@@ -134,10 +134,10 @@ function Hero() {
               See my projects <span aria-hidden="true">→</span>
             </a>
             <a href={profile.resumeUrl} className="btn btn--ghost" download>
-              Download resume
+              <span className="btn__label">Download resume</span>
             </a>
             <a href="#contact" className="btn btn--ghost">
-              Contact me
+              <span className="btn__label">Contact me</span>
             </a>
           </div>
         </div>

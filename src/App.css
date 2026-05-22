@@ -254,7 +254,11 @@
     linear-gradient(var(--grid-line) 1px, transparent 1px),
     linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
   background-size: 60px 60px;
-  mask-image: radial-gradient(ellipse 70% 60% at 50% 40%, black, transparent);
+  mask-image:
+    radial-gradient(ellipse 72% 58% at 48% 38%, black, transparent),
+    linear-gradient(180deg, black 0%, black 42%, transparent 65%);
+  -webkit-mask-composite: source-in;
+  mask-composite: intersect;
   pointer-events: none;
 }
 
@@ -379,14 +383,69 @@
 }
 
 .btn--ghost {
-  background: var(--surface-2);
+  position: relative;
+  overflow: hidden;
+  background: var(--bg-elevated);
   color: var(--text);
   border: 1px solid var(--border);
+  transition:
+    color 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 0.45s ease,
+    transform 0.25s var(--ease-out),
+    box-shadow 0.35s ease;
+}
+
+.btn--ghost::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: -100%;
+  width: 160%;
+  aspect-ratio: 1.2;
+  border-radius: 46%;
+  background: linear-gradient(
+    180deg,
+    rgba(var(--accent-rgb), 0.2) 0%,
+    rgba(var(--accent-rgb), 0.1) 45%,
+    rgba(var(--accent-rgb), 0.04) 100%
+  );
+  transform: translateX(-50%);
+  transition:
+    bottom 0.6s cubic-bezier(0.22, 1, 0.36, 1),
+    border-radius 0.6s cubic-bezier(0.22, 1, 0.36, 1),
+    width 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+  z-index: 0;
+  pointer-events: none;
 }
 
 .btn--ghost:hover {
-  border-color: var(--border-glow);
-  background: var(--accent-dim);
+  color: var(--text);
+  border-color: rgba(var(--accent-rgb), 0.28);
+  box-shadow: 0 4px 18px rgba(var(--accent-rgb), 0.1);
+}
+
+.btn--ghost:hover::before {
+  bottom: -52%;
+  width: 168%;
+  border-radius: 42%;
+}
+
+.btn__label {
+  position: relative;
+  z-index: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .btn--ghost::before {
+    transition-duration: 0.01ms;
+  }
+
+  .btn--ghost:hover::before {
+    bottom: -35%;
+    width: 150%;
+    border-radius: inherit;
+    transform: translateX(-50%);
+  }
 }
 
 .btn--full {
