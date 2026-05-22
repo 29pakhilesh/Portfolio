@@ -1,0 +1,114 @@
+.live-bg {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+  opacity: 0;
+  animation: liveBgFadeIn 2.8s var(--ease-out) forwards;
+}
+
+.live-bg__base {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 95% 60% at 15% -5%, rgba(212, 175, 55, 0.09), transparent 58%),
+    radial-gradient(ellipse 75% 50% at 90% 18%, rgba(184, 150, 46, 0.06), transparent 52%),
+    radial-gradient(ellipse 65% 45% at 48% 102%, rgba(154, 123, 26, 0.05), transparent 48%);
+  animation: liveBgBasePulse 20s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite alternate;
+}
+
+.live-bg__orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(96px);
+  will-change: transform;
+  transform: translate3d(0, 0, 0);
+}
+
+.live-bg__orb--1 {
+  width: min(50vw, 480px);
+  height: min(50vw, 480px);
+  top: -14%;
+  left: -6%;
+  background: radial-gradient(circle, rgba(212, 175, 55, 0.22) 0%, transparent 72%);
+  animation: liveBgDrift1 36s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
+}
+
+.live-bg__orb--2 {
+  width: min(42vw, 400px);
+  height: min(42vw, 400px);
+  top: 38%;
+  right: -8%;
+  background: radial-gradient(circle, rgba(240, 215, 140, 0.14) 0%, transparent 72%);
+  animation: liveBgDrift2 42s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
+}
+
+.live-bg__orb--3 {
+  width: min(38vw, 360px);
+  height: min(38vw, 360px);
+  bottom: 8%;
+  left: 22%;
+  background: radial-gradient(circle, rgba(184, 150, 46, 0.16) 0%, transparent 72%);
+  animation: liveBgDrift3 38s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
+  opacity: calc(0.65 + var(--scroll-progress, 0) * 0.35);
+}
+
+.live-bg__spotlight {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: min(72vw, 620px);
+  height: min(72vw, 620px);
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(212, 175, 55, 0.1) 0%,
+    rgba(212, 175, 55, 0.035) 42%,
+    transparent 72%
+  );
+  filter: blur(48px);
+  will-change: transform;
+  transform: translate3d(50vw, 38vh, 0) translate(-50%, -50%);
+}
+
+@keyframes liveBgFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes liveBgBasePulse {
+  0% { opacity: 0.92; transform: scale(1); }
+  100% { opacity: 1; transform: scale(1.02); }
+}
+
+@keyframes liveBgDrift1 {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+  50% { transform: translate3d(2.5%, 2%, 0) scale(1.02); }
+}
+
+@keyframes liveBgDrift2 {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+  50% { transform: translate3d(-3%, 2.5%, 0) scale(1.03); }
+}
+
+@keyframes liveBgDrift3 {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+  50% { transform: translate3d(2%, -2.5%, 0) scale(1.02); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .live-bg {
+    animation: liveBgFadeIn 0.01s forwards;
+    opacity: 1;
+  }
+
+  .live-bg__base,
+  .live-bg__orb {
+    animation: none;
+  }
+
+  .live-bg__spotlight {
+    transform: translate3d(50vw, 32vh, 0) translate(-50%, -50%) !important;
+  }
+}
