@@ -49,8 +49,6 @@ export default function CertCard({ cert }) {
             href={cert.certificateUrl}
             className="cert-card__download"
             download={cert.downloadName ?? true}
-            target="_blank"
-            rel="noopener noreferrer"
           >
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
               <path
