@@ -6,6 +6,8 @@ import { useActiveSection } from './useActiveSection'
 import SkillIcon from './SkillIcon'
 import { preloadTechIcons } from './techIcons'
 import CertCard from './CertCard'
+import SkillDetailModal from './SkillDetailModal'
+import ProjectDetailModal from './ProjectDetailModal'
 import StrengthIcon from './StrengthIcon'
 import ThemeToggle from './ThemeToggle'
 import {
@@ -21,6 +23,23 @@ import {
   navLinks,
 } from './data'
 import './App.css'
+
+function NavLogo({ onNavigate }) {
+  const [first, ...rest] = profile.name.split(' ')
+  const last = rest.join(' ')
+
+  return (
+    <a
+      href="#"
+      className="nav__logo"
+      aria-label={`${profile.name} — home`}
+      onClick={onNavigate}
+    >
+      <span className="nav__logo-name">{first}</span>
+      {last ? <span className="nav__logo-surname">{last}</span> : null}
+    </a>
+  )
+}
 
 function Nav() {
   const [scrolled, setScrolled] = useState(false)
@@ -43,9 +62,7 @@ function Nav() {
     <>
       <header className={`nav ${scrolled ? 'nav--scrolled' : ''}`}>
         <div className="nav__inner">
-          <a href="#" className="nav__logo" aria-label="Home">
-            Akhilesh
-          </a>
+          <NavLogo onNavigate={() => setMenuOpen(false)} />
           <ul className="nav__links">
             {navLinks.map((link) => {
               const id = link.href.replace('#', '')
@@ -223,20 +240,20 @@ function About() {
   )
 }
 
-function ProjectCard({ project }) {
+function ProjectCard({ project, onSelect }) {
   return (
-    <a
-      href={project.github}
+    <button
+      type="button"
       className={`project-card ${project.featured ? 'project-card--featured' : ''}`}
       style={{ '--project-accent': project.accent }}
-      target="_blank"
-      rel="noopener noreferrer"
+      onClick={() => onSelect(project)}
+      aria-label={`View details for ${project.title}`}
     >
       <div className="project-card__accent-bar" />
       <span className="project-card__period">{project.period}</span>
       <h3>
         {project.title}
-        <span className="project-card__arrow" aria-hidden="true"> ↗</span>
+        <span className="project-card__arrow" aria-hidden="true"> +</span>
       </h3>
       <p>{project.description}</p>
       <div className="project-card__tags">
@@ -244,11 +261,13 @@ function ProjectCard({ project }) {
           <span key={tag} className="project-card__tag">{tag}</span>
         ))}
       </div>
-    </a>
+    </button>
   )
 }
 
 function Work() {
+  const [selectedProject, setSelectedProject] = useState(null)
+
   return (
     <section id="work" className="section">
       <div className="container">
@@ -260,18 +279,22 @@ function Work() {
           <div className="projects-bento">
             {projects.map((project) => (
               <RevealItem key={project.title}>
-                <ProjectCard project={project} />
+                <ProjectCard project={project} onSelect={setSelectedProject} />
               </RevealItem>
             ))}
           </div>
         </RevealGroup>
       </div>
+      {selectedProject && (
+        <ProjectDetailModal project={selectedProject} onClose={() => setSelectedProject(null)} />
+      )}
     </section>
   )
 }
 
 function Skills() {
   const doubledPills = [...skillPills, ...skillPills]
+  const [selectedTech, setSelectedTech] = useState(null)
 
   useEffect(() => {
     const allTech = [
@@ -308,13 +331,24 @@ function Skills() {
                 <ul className="skill-card__icons">
                   {group.items.map((item) => (
                     <li key={item}>
-                      <SkillIcon name={item} />
+                      <button
+                        type="button"
+                        className="skill-icon-btn"
+                        onClick={() => setSelectedTech(item)}
+                        aria-label={`Learn more about ${item}`}
+                      >
+                        <SkillIcon name={item} />
+                      </button>
                     </li>
                   ))}
                 </ul>
               </article>
             ))}
           </div>
+
+          {selectedTech && (
+            <SkillDetailModal techName={selectedTech} onClose={() => setSelectedTech(null)} />
+          )}
 
           <div className="certs-block">
             <div className="certs-block__header">
