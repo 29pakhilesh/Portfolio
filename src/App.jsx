@@ -6,6 +6,7 @@ import { useActiveSection } from './useActiveSection'
 import SkillIcon from './SkillIcon'
 import { preloadTechIcons } from './techIcons'
 import CertCard from './CertCard'
+import ResumePreviewButton from './ResumePreviewButton'
 import SkillDetailModal from './SkillDetailModal'
 import ProjectDetailModal from './ProjectDetailModal'
 import StrengthIcon from './StrengthIcon'
@@ -150,9 +151,9 @@ function Hero() {
             <a href="#work" className="btn btn--primary">
               See my projects <span aria-hidden="true">→</span>
             </a>
-            <a href={profile.resumeUrl} className="btn btn--ghost" download>
-              <span className="btn__label">Download resume</span>
-            </a>
+            <ResumePreviewButton className="btn btn--ghost">
+              <span className="btn__label">View resume</span>
+            </ResumePreviewButton>
             <a href="#contact" className="btn btn--ghost">
               <span className="btn__label">Contact me</span>
             </a>
@@ -212,9 +213,9 @@ function About() {
                   </a>
                 </li>
               </ul>
-              <a href={profile.resumeUrl} className="about__resume-btn" download>
-                ↓ Download Resume (PDF)
-              </a>
+              <ResumePreviewButton className="about__resume-btn">
+                View Resume (PDF)
+              </ResumePreviewButton>
             </div>
             <div className="about__text">
               {about.map((p, i) => (

@@ -9,6 +9,7 @@ export const profile = {
   phone: '+91 9873081614',
   location: 'Ghaziabad, India',
   resumeUrl: assetUrl('Akhilesh-Panigrahi-Resume.pdf'),
+  resumeDownloadName: 'Akhilesh-Panigrahi-Resume.pdf',
   photo: assetUrl('profile-hero.png'),
   photoAbout: assetUrl('profile.png'),
   available: true,
